@@ -28,7 +28,7 @@ Durante seis semanas você vai desenvolver um ou mais projetos, com funcionalida
 
 ## Projetos desenvolvidos durante a jornada
 
-+ API Livraria Casa do Código
++ [API Livraria Casa do Código](casa-do-codigo)
 
 + API Mercado Livre
 
