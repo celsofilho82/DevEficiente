@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,10 +27,10 @@ public class AutoresController {
 	
 	@PostMapping(value = "/autores")
 	@Transactional
-	public String create(@RequestBody @Valid AutorRequest request) {
+	public ResponseEntity<Autor> create(@RequestBody @Valid AutorRequest request) {
 		Autor autor = request.toModel();
 		manager.persist(autor);
-		return autor.toString();
+		return ResponseEntity.ok(autor);
 	}
 }
 

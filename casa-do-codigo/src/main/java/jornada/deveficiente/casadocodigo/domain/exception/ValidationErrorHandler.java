@@ -15,6 +15,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jornada.deveficiente.casadocodigo.domain.dto.ValidationErrorsOutputDto;
 
+/*
+ * Está classe é um Interceptor, criamos essa classe separada para manipular
+ * os erros de validação e exibir uma mensagem mais amigável para o cliente
+ * da API. Todas as excesões do tipo "MethodArgumentNotValidException" em
+ * todos os controllers do projeto utilizaram essa classe de validação
+ * pois essa anotação @RestControllerAdvice vai abranger todos os controllers
+ */
+
 @RestControllerAdvice
 public class ValidationErrorHandler {
 
