@@ -2,6 +2,7 @@ package jornada.deveficiente.casadocodigo.domain.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,9 +18,13 @@ public class Autor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private @NotBlank String nome;
-	private @NotBlank @Email String email;
+	private @NotBlank @Email @Column(unique = true) String email;
 	private @NotBlank @Size(max = 400) String descricao;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
+
+	@Deprecated
+	public Autor() {
+	}
 
 	public Autor(@NotBlank String nome, @NotBlank @Email String email, @NotBlank @Size(max = 400) String descricao) {
 		this.nome = nome;

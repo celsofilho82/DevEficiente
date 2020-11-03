@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -30,7 +31,7 @@ public class ValidationErrorHandler {
 	private MessageSource messageSource;
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ExceptionHandler({MethodArgumentNotValidException.class, DataIntegrityViolationException.class} )
 	public ValidationErrorsOutputDto handleValidationError(MethodArgumentNotValidException exception) {
 		List<ObjectError> globalError = exception.getBindingResult().getGlobalErrors();
 		List<FieldError> fieldError = exception.getBindingResult().getFieldErrors();
