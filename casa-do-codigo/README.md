@@ -33,3 +33,19 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
 + Resultado esperado
 
         Erro de validação no caso de email duplicado
+
+### Cadastro de uma categoria
+
++ Necessidades
+
+        Toda categoria precisa de um nome
+
++ Restrições
+
+        O nome é obrigatório
+        O nome não pode ser duplicado
+
++ resultado esperado
+
+        Uma nova categoria cadastrada no sistema e status 200 retorno
+        Caso alguma restrição não seja atendida, retorne 400 e um json informando os problemas de validação
