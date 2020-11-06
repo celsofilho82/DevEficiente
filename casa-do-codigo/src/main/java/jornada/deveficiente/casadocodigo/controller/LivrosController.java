@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jornada.deveficiente.casadocodigo.domain.dto.LivroDTO;
 import jornada.deveficiente.casadocodigo.domain.model.Livro;
+import jornada.deveficiente.casadocodigo.domain.repository.LivroRepository;
 import jornada.deveficiente.casadocodigo.domain.request.LivroRequest;
 
 @RestController
@@ -21,6 +23,9 @@ public class LivrosController {
 
 	@Autowired
 	private EntityManager manager;
+	
+	@Autowired
+	private LivroRepository livroRepository;
 
 	@PostMapping("/livros")
 	@Transactional
@@ -31,7 +36,8 @@ public class LivrosController {
 	}
 
 	@GetMapping("/livros")
-	public List<?> list() {
-		return manager.createQuery("SELECT p.id, p.titulo FROM Livro p").getResultList();
+	public List<LivroDTO> list() {
+		List<Livro> livros = livroRepository.findAll();
+		return LivroDTO.convert(livros);
 	}
 }
