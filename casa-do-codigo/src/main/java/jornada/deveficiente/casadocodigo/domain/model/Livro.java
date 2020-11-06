@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 @Entity
 public class Livro {
 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -39,6 +40,9 @@ public class Livro {
 	private @NotNull @Min(100) int numeroPaginas;
 	private @NotBlank String isbn;
 	private @Future @NotNull LocalDate dataPublicacao;
+
+	@Deprecated
+	public Livro() {}
 
 	public Livro(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, @NotBlank String sumario,
 			@NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) int numeroPaginas, @NotBlank String isbn,
