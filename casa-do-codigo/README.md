@@ -83,3 +83,13 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
 
         Um novo livro precisa ser criado e status 200 retornado
         Caso alguma restrição não seja atendida, retorne 400 e um json informando os problemas de validação
+
+### Exibir lista de livros
+
++ Necessidade
+
+        Para que seja fácil pegar um id do livro, vamos exibir a lista de livros cadastrados.
+
++ resultado esperado
+
+        Um json com a lista de livros com id e nome do livro
