@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jornada.deveficiente.casadocodigo.domain.dto.LivroDTO;
-import jornada.deveficiente.casadocodigo.domain.dto.LivroDetalhesDTO;
 import jornada.deveficiente.casadocodigo.domain.model.Livro;
 import jornada.deveficiente.casadocodigo.domain.repository.LivroRepository;
 import jornada.deveficiente.casadocodigo.domain.request.LivroRequest;
+import jornada.deveficiente.casadocodigo.domain.response.DetalheLivroResponse;
+import jornada.deveficiente.casadocodigo.domain.response.LivroResponse;
 
 @RestController
 @RequestMapping("/livros")
@@ -41,16 +41,16 @@ public class LivrosController {
 	}
 
 	@GetMapping
-	public List<LivroDTO> list() {
+	public List<LivroResponse> list() {
 		List<Livro> livros = livroRepository.findAll();
-		return LivroDTO.convert(livros);
+		return LivroResponse.convert(livros);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<LivroDetalhesDTO> details(@PathVariable Long id) {
+	public ResponseEntity<DetalheLivroResponse> details(@PathVariable Long id) {
 		Optional<Livro> possivelLivro = livroRepository.findById(id);
 		if (possivelLivro.isPresent()) {
-			return ResponseEntity.ok(new LivroDetalhesDTO(possivelLivro.get()));
+			return ResponseEntity.ok(new DetalheLivroResponse(possivelLivro.get()));
 		}
 
 		return ResponseEntity.notFound().build();

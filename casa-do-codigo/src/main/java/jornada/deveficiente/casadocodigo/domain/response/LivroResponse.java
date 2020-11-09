@@ -1,16 +1,16 @@
-package jornada.deveficiente.casadocodigo.domain.dto;
+package jornada.deveficiente.casadocodigo.domain.response;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import jornada.deveficiente.casadocodigo.domain.model.Livro;
 
-public class LivroDTO {
+public class LivroResponse {
 
 	private Long id;
 	private String titulo;
 	
-	public LivroDTO(Livro livro) {
+	public LivroResponse(Livro livro) {
 		this.id = livro.getId();
 		this.titulo = livro.getTitulo();
 	}
@@ -23,8 +23,8 @@ public class LivroDTO {
 		return titulo;
 	}
 	
-	public static List<LivroDTO> convert(List<Livro> livros){
-		return livros.stream().map(LivroDTO::new).collect(Collectors.toList());
+	public static List<LivroResponse> convert(List<Livro> livros){
+		return livros.stream().map(LivroResponse::new).collect(Collectors.toList());
 	}
 	
 }

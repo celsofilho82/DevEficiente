@@ -1,17 +1,15 @@
-package jornada.deveficiente.casadocodigo.domain.dto;
+package jornada.deveficiente.casadocodigo.domain.response;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import jornada.deveficiente.casadocodigo.domain.model.Autor;
-import jornada.deveficiente.casadocodigo.domain.model.Categoria;
 import jornada.deveficiente.casadocodigo.domain.model.Livro;
 
-public class LivroDetalhesDTO {
+public class DetalheLivroResponse {
 
-	private Categoria idCategoria;
+	private DetalheCategoriaResponse categoria;
 
-	private Autor idAutor;
+	private DetalheAutorResponse autor;
 
 	private String titulo;
 	private String resumo;
@@ -19,27 +17,19 @@ public class LivroDetalhesDTO {
 	private BigDecimal preco;
 	private int numeroPaginas;
 	private String isbn;
-	private LocalDate dataPublicacao;
+	private String dataPublicacao;
 
-	public LivroDetalhesDTO(Livro livro) {
+	public DetalheLivroResponse(Livro livro) {
 
-		this.idCategoria = livro.getIdCategoria();
-		this.idAutor = livro.getIdAutor();
+		this.categoria = new DetalheCategoriaResponse(livro.getIdCategoria());
+		this.autor = new DetalheAutorResponse(livro.getIdAutor());
 		this.titulo = livro.getTitulo();
 		this.resumo = livro.getResumo();
 		this.sumario = livro.getSumario();
 		this.preco = livro.getPreco();
 		this.numeroPaginas = livro.getNumeroPaginas();
 		this.isbn = livro.getIsbn();
-		this.dataPublicacao = livro.getDataPublicacao();
-	}
-
-	public Categoria getIdCategoria() {
-		return idCategoria;
-	}
-
-	public Autor getIdAutor() {
-		return idAutor;
+		this.dataPublicacao = livro.getDataPublicacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 
 	public String getTitulo() {
@@ -66,8 +56,16 @@ public class LivroDetalhesDTO {
 		return isbn;
 	}
 
-	public LocalDate getDataPublicacao() {
+	public String getDataPublicacao() {
 		return dataPublicacao;
+	}
+
+	public DetalheAutorResponse getAutor() {
+		return autor;
+	}
+
+	public DetalheCategoriaResponse getCategoria() {
+		return categoria;
 	}
 
 }
