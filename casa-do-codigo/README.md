@@ -78,7 +78,6 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
         A categoria não pode ser nula
         O autor não pode ser nulo
 
-
 + Resultado esperado
 
         Um novo livro precisa ser criado e status 200 retornado
@@ -93,3 +92,17 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
 + resultado esperado
 
         Um json com a lista de livros com id e nome do livro
+
+### Exibir a página de detalhe de um livro
+
++ Necessidades
+
+        Ter um endpoint que em função de um id de livro retorne os detalhes necessários para montar a página.
+
++ Restrições
+
+        Se o id não existir é para retornar 404
+
++ Resultado esperado
+
+        Que o front possa montar a página
