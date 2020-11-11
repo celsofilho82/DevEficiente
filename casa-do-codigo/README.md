@@ -106,3 +106,25 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
 + Resultado esperado
 
         Que o front possa montar a página
+
+### Cadastro de país e estados do país
+
++ Necessidades
+
+        Precisamos de um cadastro simples de países e seus respectivos estados. Cada país tem um nome e cada estado tem um nome e pertence a um país.
+
++ Restrições para país
+
+        O nome é obrigatório
+        O nome é único
+
++ Restrição para estados
+
+        O nome é obrigatório
+        O nome é único
+        O país é obrigatório
+
++ Resultado esperado
+
+        Dois endpoints para que seja possível cadastrar países e estados. Pode existir país sem estados associados.
+        Caso alguma restrição não seja atendida, retornar 400 e json com os problemas de validação.
