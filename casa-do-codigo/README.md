@@ -128,3 +128,42 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
 
         Dois endpoints para que seja possível cadastrar países e estados. Pode existir país sem estados associados.
         Caso alguma restrição não seja atendida, retornar 400 e json com os problemas de validação.
+
+### Fluxo de pagamento - Parte 1
+
++ Necessidades
+
+        Uma coisa importante. Na Casa do Código, você não faz um cadastro e tem suas compras associadas. Toda vez você coloca seu email, cpf/cnpj etc. Como isso vai ser implementado depende da aplicação.
+
++ Os seguintes campos precisam ser preenchidos:
+
+        email
+        nome
+        sobrenome
+        documento(cpf/cnpj)
+        endereco
+        complemento
+        cidade
+        pais
+        estado(caso aquele pais tenha estado)
+        telefone
+        cep
+
++ Restrição
+
+        email obrigatório e com formato adequado
+        nome obrigatório
+        sobrenome obrigatório
+        documento(cpf/cnpj) obrigatório e só precisa ser um cpf ou cnpj
+        endereco obrigatório
+        complemento obrigatório
+        cidade obrigatório
+        país obrigatório
+        se o país tiver estados, um estado precisa ser selecionado
+        estado(caso aquele pais tenha estado) - apenas se o país tiver cadastro de estados
+        telefone obrigatório
+        cep é obrigatório
+
++ Resultado esperado
+
+        Compra parcialmente gerada, mas ainda não gravada no banco de dados. Falta os dados do pedido em si que vão ser trabalhados no próximo fluxo.
