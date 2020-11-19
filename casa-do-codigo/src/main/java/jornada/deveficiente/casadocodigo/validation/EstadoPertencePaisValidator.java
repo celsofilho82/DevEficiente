@@ -16,10 +16,10 @@ public class EstadoPertencePaisValidator implements Validator {
 
 	@PersistenceContext
 	private EntityManager manager;
-	
+
 	@Override
 	public boolean supports(Class<?> clazz) {
-		
+
 		return NovaCompraRequest.class.isAssignableFrom(clazz);
 	}
 
@@ -30,13 +30,17 @@ public class EstadoPertencePaisValidator implements Validator {
 		}
 
 		NovaCompraRequest request = (NovaCompraRequest) target;
-		
-		Pais pais = manager.find(Pais.class, request.getIdpais());
-		Estado estado = manager.find(Estado.class, request.getIdEstado());
-		if (!estado.pertenceAPais(pais)) {
-			errors.reject("idEstado", null, "Este estado não pertence ao Pais selecionado");
+
+		if (request.temEstado()) {
+
+			Pais pais = manager.find(Pais.class, request.getIdpais());
+			Estado estado = manager.find(Estado.class, request.getIdEstado());
+			if (!estado.pertenceAPais(pais)) {
+				errors.reject("idEstado", null, "Este estado não pertence ao Pais selecionado");
+			}
+
 		}
-		
+
 	}
 
 }
