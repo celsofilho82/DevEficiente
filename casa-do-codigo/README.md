@@ -228,3 +228,20 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
 
         status 400 e json de erros em caso de falha de validação
         status 200 e cupom gerado
+
+### Aplicar cupom na compra
+
++ Necessidades
+
+        Agora, no começo do processo de finalização de compra, um cupom pode ser aplicado.
+
++ Restrições
+
+        o código do cupom precisa ser válido
+        o cupom precisa ser válido ainda
+        uma vez associado o cupom, uma compra nunca pode ter essa informação alterada.
+        O cupom só pode ser associada com uma compra que ainda não foi registrada no banco de dados (esse daqui eu não implementei)
+
++ Resultado esperado
+
+        Manter o mesmo resultado que já existia
