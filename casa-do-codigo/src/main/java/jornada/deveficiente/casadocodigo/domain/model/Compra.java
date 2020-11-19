@@ -3,6 +3,7 @@ package jornada.deveficiente.casadocodigo.domain.model;
 import java.util.function.Function;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +37,9 @@ public class Compra {
 	
 	@OneToOne(mappedBy = "compra", cascade = CascadeType.PERSIST)
 	private Pedido pedido;
+	
+	@Embedded
+	private CupomAplicado cupomAplicado;
 
 	public Long getId() {
 		return id;
@@ -98,6 +102,17 @@ public class Compra {
 
 	public Pedido getPedido() {
 		return pedido;
+	}
+
+	public void aplicaCupom(Cupom cupom) {
+		Assert.isTrue(cupom.valido(), "Este cupom já não é mais válido!");
+		Assert.isNull(cupomAplicado, "Este cupom não pode ser substituido");
+		this.cupomAplicado = new CupomAplicado(cupom);
+		
+	}
+
+	public CupomAplicado getCupomAplicado() {
+		return cupomAplicado;
 	}
 
 }
