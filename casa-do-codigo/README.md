@@ -204,3 +204,27 @@ O objetivo é trabalhar o design do código, criando código que seja suficiente
 
         Compra gerada com um status de iniciada
         status 201 gerado com o endereço de detalhe da compra
+
+### Cadastro de cupom de desconto
+
++ Necessidades
+
+        A casa do código pode liberar cupons de desconto com valores e validade variados. Precisamos ter suporte a isso.
+
+        Todo cupom tem:
+
+        um código para ser entendido por pessoas
+        um percentual de desconto
+        uma validade para ser associado a uma compra
+
++ Restrições
+
+        o código é obrigatório
+        o código é único
+        o percentual é obrigatório e positivo
+        a validade é no futuro
+
++ Resultado esperado
+
+        status 400 e json de erros em caso de falha de validação
+        status 200 e cupom gerado
