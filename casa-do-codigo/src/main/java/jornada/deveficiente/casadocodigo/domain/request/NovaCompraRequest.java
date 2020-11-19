@@ -1,6 +1,9 @@
 package jornada.deveficiente.casadocodigo.domain.request;
 
+import java.util.function.Function;
+
 import javax.persistence.EntityManager;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -9,8 +12,10 @@ import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.springframework.util.Assert;
 
+import jornada.deveficiente.casadocodigo.domain.model.Compra;
 import jornada.deveficiente.casadocodigo.domain.model.Estado;
 import jornada.deveficiente.casadocodigo.domain.model.Pais;
+import jornada.deveficiente.casadocodigo.domain.model.Pedido;
 import jornada.deveficiente.casadocodigo.validation.ExistsId;
 
 public class NovaCompraRequest {
@@ -51,10 +56,14 @@ public class NovaCompraRequest {
 	@NotBlank
 	private String cep;
 
+	@Valid
+	@NotNull
+	private NovoPedidoRequest pedido;
+
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
 			@NotBlank String cidade, @NotNull Long idPais, @NotNull Long idEstado, @NotBlank String telefone,
-			@NotBlank String cep) {
+			@NotBlank String cep, @Valid @NotNull NovoPedidoRequest pedido) {
 		super();
 		this.email = email;
 		this.nome = nome;
@@ -67,18 +76,7 @@ public class NovaCompraRequest {
 		this.idEstado = idEstado;
 		this.telefone = telefone;
 		this.cep = cep;
-	}
-
-	public Compra toModel(EntityManager manager) {
-		Pais pais = manager.find(Pais.class, this.idPais);
-		Estado estado = manager.find(Estado.class, this.idEstado);
-
-		return new Compra(this.email, this.nome, this.sobrenome, this.documento, this.endereco, this.complemento,
-				this.cidade, pais, estado, this.telefone, this.cep);
-	}
-
-	public String getDocumento() {
-		return documento;
+		this.pedido = pedido;
 	}
 
 	public Long getIdpais() {
@@ -99,6 +97,23 @@ public class NovaCompraRequest {
 		cnpjValidator.initialize(null);
 
 		return cpfValidator.isValid(this.documento, null) || cnpjValidator.isValid(this.documento, null);
+	}
+
+	public Compra toModel(EntityManager manager) {
+		@NotNull Pais pais = manager.find(Pais.class, idPais);
+		
+		Function<Compra, Pedido> funcaoCriacaoPedido = pedido.toModel(manager);
+		
+		Compra compra = new Compra(email,nome,sobrenome,endereco,complemento,telefone,cep, pais, funcaoCriacaoPedido);
+		if (idEstado != null) {
+			compra.setEstado(manager.find(Estado.class, idEstado));
+		}
+		
+		return compra;
+	}
+
+	public boolean temEstado() {
+		return idEstado != null;
 	}
 
 }
