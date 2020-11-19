@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jornada.deveficiente.casadocodigo.domain.model.Compra;
+import jornada.deveficiente.casadocodigo.domain.repository.CupomRepository;
 import jornada.deveficiente.casadocodigo.domain.request.NovaCompraRequest;
+import jornada.deveficiente.casadocodigo.validation.CupomValidoValidator;
 import jornada.deveficiente.casadocodigo.validation.EstadoPertencePaisValidator;
 import jornada.deveficiente.casadocodigo.validation.VerificaDocumentoCpfOuCnpjValidator;
 
@@ -27,17 +29,23 @@ public class FechaCompraController {
 	
 	@Autowired
 	private EstadoPertencePaisValidator estadoPertencePaisValidator;
+	
+	@Autowired
+	private CupomRepository cupomRepository;
+	
+	@Autowired
+	private CupomValidoValidator cupomValidoValidator;
 
 	@InitBinder
 	public void init(WebDataBinder binder) {
-		binder.addValidators(new VerificaDocumentoCpfOuCnpjValidator(),estadoPertencePaisValidator);
+		binder.addValidators(new VerificaDocumentoCpfOuCnpjValidator(),estadoPertencePaisValidator,cupomValidoValidator);
 	}
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Compra> create(@RequestBody @Valid NovaCompraRequest request) {
 		
-		Compra novaCompra = request.toModel(manager);
+		Compra novaCompra = request.toModel(manager, cupomRepository);
 		manager.persist(novaCompra);
 		return ResponseEntity.ok(novaCompra);
 	}
