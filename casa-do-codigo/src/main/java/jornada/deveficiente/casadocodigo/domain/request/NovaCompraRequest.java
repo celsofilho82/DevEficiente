@@ -1,5 +1,6 @@
 package jornada.deveficiente.casadocodigo.domain.request;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.persistence.EntityManager;
@@ -11,11 +12,14 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import jornada.deveficiente.casadocodigo.domain.model.Compra;
+import jornada.deveficiente.casadocodigo.domain.model.Cupom;
 import jornada.deveficiente.casadocodigo.domain.model.Estado;
 import jornada.deveficiente.casadocodigo.domain.model.Pais;
 import jornada.deveficiente.casadocodigo.domain.model.Pedido;
+import jornada.deveficiente.casadocodigo.domain.repository.CupomRepository;
 import jornada.deveficiente.casadocodigo.validation.ExistsId;
 
 public class NovaCompraRequest {
@@ -59,6 +63,8 @@ public class NovaCompraRequest {
 	@Valid
 	@NotNull
 	private NovoPedidoRequest pedido;
+	
+	private String codigoCupom;
 
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
@@ -99,7 +105,7 @@ public class NovaCompraRequest {
 		return cpfValidator.isValid(this.documento, null) || cnpjValidator.isValid(this.documento, null);
 	}
 
-	public Compra toModel(EntityManager manager) {
+	public Compra toModel(EntityManager manager, CupomRepository cupomRepository) {
 		@NotNull Pais pais = manager.find(Pais.class, idPais);
 		
 		Function<Compra, Pedido> funcaoCriacaoPedido = pedido.toModel(manager);
@@ -109,11 +115,25 @@ public class NovaCompraRequest {
 			compra.setEstado(manager.find(Estado.class, idEstado));
 		}
 		
+		if(StringUtils.hasText(codigoCupom)) {
+			Cupom cupom = cupomRepository.findByCodigo(codigoCupom);
+			compra.aplicaCupom(cupom);
+		}
+		
+		
 		return compra;
 	}
 
 	public boolean temEstado() {
 		return idEstado != null;
+	}
+
+	public void setCodigoCupom(String codigoCupom) {
+		this.codigoCupom = codigoCupom;
+	}
+
+	public Optional<String> getCodigoCupom() {
+		return Optional.ofNullable(codigoCupom);
 	}
 
 }
