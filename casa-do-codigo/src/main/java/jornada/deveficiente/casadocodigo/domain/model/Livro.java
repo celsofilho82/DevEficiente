@@ -18,7 +18,6 @@ import javax.validation.constraints.Size;
 @Entity
 public class Livro {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -42,7 +41,8 @@ public class Livro {
 	private @Future @NotNull LocalDate dataPublicacao;
 
 	@Deprecated
-	public Livro() {}
+	public Livro() {
+	}
 
 	public Livro(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, @NotBlank String sumario,
 			@NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) int numeroPaginas, @NotBlank String isbn,
@@ -97,6 +97,31 @@ public class Livro {
 
 	public Autor getIdAutor() {
 		return idAutor;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((isbn == null) ? 0 : isbn.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Livro other = (Livro) obj;
+		if (isbn == null) {
+			if (other.isbn != null)
+				return false;
+		} else if (!isbn.equals(other.isbn))
+			return false;
+		return true;
 	}
 
 }
