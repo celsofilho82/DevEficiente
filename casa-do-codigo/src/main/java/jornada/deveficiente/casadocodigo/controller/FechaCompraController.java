@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jornada.deveficiente.casadocodigo.domain.request.Compra;
+import jornada.deveficiente.casadocodigo.domain.model.Compra;
 import jornada.deveficiente.casadocodigo.domain.request.NovaCompraRequest;
 import jornada.deveficiente.casadocodigo.validation.EstadoPertencePaisValidator;
 import jornada.deveficiente.casadocodigo.validation.VerificaDocumentoCpfOuCnpjValidator;
@@ -36,9 +36,10 @@ public class FechaCompraController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Compra> create(@RequestBody @Valid NovaCompraRequest request) {
-		Compra compra = request.toModel(manager);
-		manager.persist(compra);
-		return ResponseEntity.ok(compra);
+		
+		Compra novaCompra = request.toModel(manager);
+		manager.persist(novaCompra);
+		return ResponseEntity.ok(novaCompra);
 	}
 
 }
