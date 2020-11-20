@@ -63,7 +63,8 @@ public class NovaCompraRequest {
 	@Valid
 	@NotNull
 	private NovoPedidoRequest pedido;
-	
+
+	@ExistsId(domainClass = Cupom.class, fieldName = "codigo")
 	private String codigoCupom;
 
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
@@ -106,21 +107,22 @@ public class NovaCompraRequest {
 	}
 
 	public Compra toModel(EntityManager manager, CupomRepository cupomRepository) {
-		@NotNull Pais pais = manager.find(Pais.class, idPais);
-		
+		@NotNull
+		Pais pais = manager.find(Pais.class, idPais);
+
 		Function<Compra, Pedido> funcaoCriacaoPedido = pedido.toModel(manager);
-		
-		Compra compra = new Compra(email,nome,sobrenome,endereco,complemento,telefone,cep, pais, funcaoCriacaoPedido);
+
+		Compra compra = new Compra(email, nome, sobrenome, endereco, complemento, telefone, cep, pais,
+				funcaoCriacaoPedido);
 		if (idEstado != null) {
 			compra.setEstado(manager.find(Estado.class, idEstado));
 		}
-		
-		if(StringUtils.hasText(codigoCupom)) {
+
+		if (StringUtils.hasText(codigoCupom)) {
 			Cupom cupom = cupomRepository.findByCodigo(codigoCupom);
 			compra.aplicaCupom(cupom);
 		}
-		
-		
+
 		return compra;
 	}
 
