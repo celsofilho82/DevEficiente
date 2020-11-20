@@ -23,11 +23,13 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	@Valid
 	@OneToOne
 	private Compra compra;
+
+	private BigDecimal totalPedido;
 
 	public Long getId() {
 		return id;
@@ -36,10 +38,14 @@ public class Pedido {
 	public Set<ItemPedido> getItens() {
 		return itens;
 	}
-	
+
 	@Size(min = 1)
 	@ElementCollection
 	private Set<ItemPedido> itens = new HashSet<ItemPedido>();
+
+	@Deprecated
+	public Pedido() {
+	}
 
 	public Pedido(@NotNull @Valid Compra compra, @Size(min = 1) Set<ItemPedido> itens) {
 		Assert.isTrue(!itens.isEmpty(), "O pedido deve possuir 1 item");
@@ -47,11 +53,19 @@ public class Pedido {
 		this.itens.addAll(itens);
 	}
 
+	public BigDecimal getTotalPedido() {
+		return totalPedido;
+	}
 
 	public boolean totalIgual(@Positive @NotNull BigDecimal total) {
-		BigDecimal totalPedido = itens.stream().map(ItemPedido::total).reduce(BigDecimal.ZERO,
-				(atual, proximo) -> atual.add(proximo));
+		BigDecimal totalPedido = valorTotal();
 		return totalPedido.doubleValue() == total.doubleValue();
+	}
+
+	private BigDecimal valorTotal() {
+		totalPedido = itens.stream().map(ItemPedido::total).reduce(BigDecimal.ZERO,
+				(atual, proximo) -> atual.add(proximo));
+		return getTotalPedido();
 	}
 
 }
