@@ -23,6 +23,10 @@ public class Cupom {
 	private @NotNull @Positive @Max(value = 100) int percentualDesconto;
 	private @NotNull @Future LocalDate validade;
 
+	@Deprecated
+	public Cupom() {
+	}
+
 	public Cupom(@NotBlank String codigo, @NotNull @Positive @Max(value = 100) int percentualDesconto,
 			@NotBlank @Future LocalDate validade) {
 		this.codigo = codigo;

@@ -16,11 +16,11 @@ public class CupomAplicado {
 
 	@Positive
 	@NotNull
-	private int percentualDescontoMomento;
+	private int percentualDesconto;
 
 	@NotNull
 	@Future
-	private LocalDate validadeMomento;
+	private LocalDate validade;
 
 	@Deprecated
 	public CupomAplicado() {
@@ -28,16 +28,20 @@ public class CupomAplicado {
 
 	public CupomAplicado(Cupom cupom) {
 		this.cupom = cupom;
-		this.percentualDescontoMomento = cupom.getPercentualDesconto();
-		this.validadeMomento = cupom.getValidade();
+		this.percentualDesconto = cupom.getPercentualDesconto();
+		this.validade = cupom.getValidade();
+	}
+
+	public String getCupom() {
+		return cupom.getCodigo();
 	}
 
 	public int getPercentualDescontoMomento() {
-		return percentualDescontoMomento;
+		return percentualDesconto;
 	}
 
 	public LocalDate getValidadeMomento() {
-		return validadeMomento;
+		return validade;
 	}
 
 }

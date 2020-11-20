@@ -34,19 +34,15 @@ public class Compra {
 	private @NotNull Pais pais;
 	@ManyToOne
 	private Estado estado;
-	
+
 	@OneToOne(mappedBy = "compra", cascade = CascadeType.PERSIST)
 	private Pedido pedido;
-	
+
 	@Embedded
 	private CupomAplicado cupomAplicado;
 
-	public Long getId() {
-		return id;
-	}
-
-	public Estado getEstado() {
-		return estado;
+	@Deprecated
+	public Compra() {
 	}
 
 	public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
@@ -61,6 +57,14 @@ public class Compra {
 		this.cep = cep;
 		this.pais = pais;
 		this.pedido = funcaoCriacaoPedido.apply(this);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Estado getEstado() {
+		return estado;
 	}
 
 	public String getEmail() {
@@ -95,24 +99,24 @@ public class Compra {
 		return pais;
 	}
 
-	public void setEstado(@NotNull @Valid Estado estado) {
-		Assert.isTrue(estado.pertenceAPais(pais), "Este estado não pertence ao País cadastrado na compra");
-		this.estado = estado;
+	public CupomAplicado getCupomAplicado() {
+		return cupomAplicado;
 	}
 
 	public Pedido getPedido() {
 		return pedido;
 	}
 
+	public void setEstado(@NotNull @Valid Estado estado) {
+		Assert.isTrue(estado.pertenceAPais(pais), "Este estado não pertence ao País cadastrado na compra");
+		this.estado = estado;
+	}
+
 	public void aplicaCupom(Cupom cupom) {
 		Assert.isTrue(cupom.valido(), "Este cupom já não é mais válido!");
 		Assert.isNull(cupomAplicado, "Este cupom não pode ser substituido");
 		this.cupomAplicado = new CupomAplicado(cupom);
-		
-	}
 
-	public CupomAplicado getCupomAplicado() {
-		return cupomAplicado;
 	}
 
 }
