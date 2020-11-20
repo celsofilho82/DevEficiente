@@ -7,7 +7,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jornada.deveficiente.casadocodigo.domain.model.Compra;
 import jornada.deveficiente.casadocodigo.domain.repository.CupomRepository;
 import jornada.deveficiente.casadocodigo.domain.request.NovaCompraRequest;
+import jornada.deveficiente.casadocodigo.domain.response.DetalhesCompraResponse;
 import jornada.deveficiente.casadocodigo.validation.CupomValidoValidator;
 import jornada.deveficiente.casadocodigo.validation.EstadoPertencePaisValidator;
 import jornada.deveficiente.casadocodigo.validation.VerificaDocumentoCpfOuCnpjValidator;
@@ -49,5 +52,15 @@ public class FechaCompraController {
 		manager.persist(novaCompra);
 		return ResponseEntity.ok(novaCompra);
 	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<DetalhesCompraResponse> details(@PathVariable Long id) {
+		Compra compra = manager.find(Compra.class, id);
+		if (compra != null) {
+			return ResponseEntity.ok(new DetalhesCompraResponse(compra));
+		}
+		return ResponseEntity.notFound().build();
+	}
+
 
 }
