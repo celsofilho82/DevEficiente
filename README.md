@@ -1,6 +1,6 @@
 # Jornada Dev Eficiente
 
-## O que é a Jornada Dev Eficiente?
+## O que é a Jornada Dev Eficiente
 
 A Jornada Dev Eficiente existe para que você treine sua capacidade de escrever código de qualidade em qualquer cenário. Ela te prepara para a alta performance. E quem se sente mais preparado(a), vai mais longe!
 
@@ -22,7 +22,7 @@ A Jornada Dev Eficiente existe para que você treine sua capacidade de escrever 
 
 + Como refatorar código realmente garantindo que o código final vai ser uma versão melhor do que a inicial.
 
-## O que exatamente será desenvolvido?
+## O que exatamente será desenvolvido
 
 Durante seis semanas você vai desenvolver um ou mais projetos, com funcionalidades de dificuldade progressiva. Cada funcionalidade vai exigir uma habilidade diferente sua, o que vai te fazer estudar o necessário e treinar muito.
 
@@ -30,6 +30,6 @@ Durante seis semanas você vai desenvolver um ou mais projetos, com funcionalida
 
 + [API Livraria Casa do Código](casa-do-codigo)
 
-+ API Mercado Livre
++ [API Mercado Livre](mercado-livre)
 
 + API Banco Digital
