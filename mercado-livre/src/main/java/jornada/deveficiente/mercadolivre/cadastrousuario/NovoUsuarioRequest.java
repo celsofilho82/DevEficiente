@@ -25,7 +25,11 @@ public class NovoUsuarioRequest {
 	}
 
 	public Usuario toModel() {
-		return new Usuario(this.login, this.senha, this.dataCadastro);
+		return new Usuario(this.getLogin(), this.senha, this.dataCadastro);
+	}
+
+	public String getLogin() {
+		return login;
 	}
 
 }

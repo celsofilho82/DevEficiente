@@ -23,6 +23,10 @@ public class Usuario {
 	private @NotBlank @Length(min = 6) String senha;
 	private LocalDateTime dataCadastro;
 
+	@Deprecated
+	public Usuario() {
+	}
+
 	public Usuario(@NotBlank @Email String login, @NotBlank @Length(min = 6) String senha, LocalDateTime dataCadastro) {
 		this.login = login;
 		this.senha = new BCryptPasswordEncoder().encode(senha);
