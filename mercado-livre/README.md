@@ -23,3 +23,13 @@ Neste desafio foi desenvolvido uma api para suportar parte do funcionamento do M
 
         O usuário precisa estar criado no sistema
         O cliente que fez a requisição precisa saber que o usuário foi criado. Apenas um retorno com status 200 está suficente.
+
+### Não podemos ter dois usuários com o mesmo email
+
++ Necessidades
+
+        Só pode existir um usuário com o mesmo email.
+
++ Resultado esperado
+
+        Status 400 informando que não foi possível realizar um cadastro com este email.
