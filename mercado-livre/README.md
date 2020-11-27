@@ -52,3 +52,9 @@ No mercado livre você pode criar hierarquias de categorias livres. Ex: Tecnolog
 
         categoria criada e status 200 retornado pelo endpoint.
         caso exista erros de validação, o endpoint deve retornar 400 e o json dos erros.
+
+### Autenticação
+
++ Necessidades
+
+        Você precisa configurar um mecanismo de autenticação via token para permitir o login.
