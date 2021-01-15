@@ -1,6 +1,7 @@
 package jornada.deveficiente.mercadolivre.cadastroproduto;
 
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,9 @@ public class CadastroProdutosController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@Autowired
+	private UploaderFake uploaderFake;
+
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Produto> create(@RequestBody @Valid NovoProdutoRequest request) {
@@ -35,4 +40,23 @@ public class CadastroProdutosController {
 		return ResponseEntity.ok(produto);
 	}
 
+	@PostMapping(path = "/{id}/imagens")
+	@Transactional
+	public void adicionaImagens(@PathVariable("id") Long id, @Valid NovasImagensRequest request) {
+		/**
+		 * Fluxo da implementação
+		 * 1) Enviar as imagens para o repositório
+		 * 2) Obter os links dessas imagens
+		 * 3) Associar esses links com o produto
+		 * 4) Instanciar o produto
+		 * 5) Atualiar o produto com os links para as imagens
+		 */
+		
+		Set<String> links = uploaderFake.envia(request.getImagens());
+		Produto produto = manager.find(Produto.class, id);
+		produto.associaImagens(links);
+		
+		manager.merge(produto);
+	}
+	
 }

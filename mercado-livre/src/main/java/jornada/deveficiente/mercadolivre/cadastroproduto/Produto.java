@@ -2,12 +2,17 @@ package jornada.deveficiente.mercadolivre.cadastroproduto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -43,6 +48,13 @@ public class Produto {
 	@NotBlank
 	@Length(max = 1000)
 	private String descricao;
+
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+	private Set<ImagemProduto> imagens = new HashSet<ImagemProduto>();
+
+	@Deprecated
+	public Produto() {
+	}
 
 	public Produto(@NotBlank String nome, @NotBlank @Length(max = 1000) String descricao,
 			@NotBlank @Positive BigDecimal valor, @NotNull @Positive int quantidade, LocalDate dataCadastro,
@@ -87,6 +99,13 @@ public class Produto {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public void associaImagens(Set<String> links) {
+		Set<ImagemProduto> imagens = links.stream().map(link -> new ImagemProduto(this, link))
+				.collect(Collectors.toSet());
+
+		this.imagens.addAll(imagens);
 	}
 
 }
