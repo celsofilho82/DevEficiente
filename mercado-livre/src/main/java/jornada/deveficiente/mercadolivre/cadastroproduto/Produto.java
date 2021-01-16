@@ -108,4 +108,8 @@ public class Produto {
 		this.imagens.addAll(imagens);
 	}
 
+	public boolean pertenceAoUsuario(Usuario dono) {
+		return this.usuario.equals(dono);
+	}
+
 }

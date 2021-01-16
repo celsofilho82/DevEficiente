@@ -8,12 +8,14 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import jornada.deveficiente.mercadolivre.cadastrousuario.Usuario;
 import jornada.deveficiente.mercadolivre.cadastrousuario.UsuarioRepository;
@@ -51,9 +53,14 @@ public class CadastroProdutosController {
 		 * 4) Instanciar o produto
 		 * 5) Atualiar o produto com os links para as imagens
 		 */
+		Optional<Usuario> dono = usuarioRepository.findByLogin("celsoribeiro@email.com");
+		Produto produto = manager.find(Produto.class, id);
+		
+		if (!produto.pertenceAoUsuario(dono.get())) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
 		
 		Set<String> links = uploaderFake.envia(request.getImagens());
-		Produto produto = manager.find(Produto.class, id);
 		produto.associaImagens(links);
 		
 		manager.merge(produto);
