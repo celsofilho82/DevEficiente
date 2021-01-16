@@ -33,6 +33,7 @@ public class CadastroProdutosController {
 	@Autowired
 	private UploaderFake uploaderFake;
 
+
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Produto> create(@RequestBody @Valid NovoProdutoRequest request) {
@@ -64,6 +65,21 @@ public class CadastroProdutosController {
 		produto.associaImagens(links);
 		
 		manager.merge(produto);
+	}
+	
+	@PostMapping(path = "/{id}/imagens")
+	@Transactional
+	public void adicionaOpiniao(@PathVariable("id") Long id, @Valid NovaOpiniaoRequest request) {
+		
+		Optional<Usuario> consumidor = usuarioRepository.findByLogin("celsoribeiro@email.com");
+		Produto produto = manager.find(Produto.class, id);
+		
+		if (!produto.pertenceAoUsuario(consumidor.get())) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		
+		Opiniao novaOpiniao = request.toModel(produto, consumidor.get());
+		manager.persist(novaOpiniao);
 	}
 	
 }
