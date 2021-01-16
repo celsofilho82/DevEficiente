@@ -1,4 +1,4 @@
-package jornada.deveficiente.mercadolivre.cadastroproduto;
+package jornada.deveficiente.mercadolivre.adicionaopiniao;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import jornada.deveficiente.mercadolivre.cadastroproduto.Produto;
 import jornada.deveficiente.mercadolivre.cadastrousuario.Usuario;
 
 public class NovaOpiniaoRequest {

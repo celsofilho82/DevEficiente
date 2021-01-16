@@ -33,7 +33,6 @@ public class CadastroProdutosController {
 	@Autowired
 	private UploaderFake uploaderFake;
 
-
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Produto> create(@RequestBody @Valid NovoProdutoRequest request) {
@@ -47,39 +46,21 @@ public class CadastroProdutosController {
 	@Transactional
 	public void adicionaImagens(@PathVariable("id") Long id, @Valid NovasImagensRequest request) {
 		/**
-		 * Fluxo da implementação
-		 * 1) Enviar as imagens para o repositório
-		 * 2) Obter os links dessas imagens
-		 * 3) Associar esses links com o produto
-		 * 4) Instanciar o produto
-		 * 5) Atualiar o produto com os links para as imagens
+		 * Fluxo da implementação 1) Enviar as imagens para o repositório 2) Obter os
+		 * links dessas imagens 3) Associar esses links com o produto 4) Instanciar o
+		 * produto 5) Atualiar o produto com os links para as imagens
 		 */
 		Optional<Usuario> dono = usuarioRepository.findByLogin("celsoribeiro@email.com");
 		Produto produto = manager.find(Produto.class, id);
-		
+
 		if (!produto.pertenceAoUsuario(dono.get())) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 		}
-		
+
 		Set<String> links = uploaderFake.envia(request.getImagens());
 		produto.associaImagens(links);
-		
+
 		manager.merge(produto);
 	}
-	
-	@PostMapping(path = "/{id}/opinioes")
-	@Transactional
-	public void adicionaOpiniao(@PathVariable("id") Long id, @Valid NovaOpiniaoRequest request) {
-		
-		Optional<Usuario> consumidor = usuarioRepository.findByLogin("celsoribeiro@email.com");
-		Produto produto = manager.find(Produto.class, id);
-		
-		if (!produto.pertenceAoUsuario(consumidor.get())) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-		}
-		
-		Opiniao novaOpiniao = request.toModel(produto, consumidor.get());
-		manager.persist(novaOpiniao);
-	}
-	
+
 }

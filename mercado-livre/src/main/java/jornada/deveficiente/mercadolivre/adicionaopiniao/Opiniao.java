@@ -1,4 +1,4 @@
-package jornada.deveficiente.mercadolivre.cadastroproduto;
+package jornada.deveficiente.mercadolivre.adicionaopiniao;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import jornada.deveficiente.mercadolivre.cadastroproduto.Produto;
 import jornada.deveficiente.mercadolivre.cadastrousuario.Usuario;
 
 @Entity
