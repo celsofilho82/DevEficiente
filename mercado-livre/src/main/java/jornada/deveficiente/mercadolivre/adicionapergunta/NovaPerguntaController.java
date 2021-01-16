@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jornada.deveficiente.mercadolivre.cadastroproduto.Produto;
 import jornada.deveficiente.mercadolivre.cadastrousuario.Usuario;
 import jornada.deveficiente.mercadolivre.cadastrousuario.UsuarioRepository;
+import jornada.deveficiente.mercadolivre.enviaemail.Email;
 
 @RestController
 @RequestMapping("/produtos/{id}/perguntas")
@@ -29,6 +30,9 @@ public class NovaPerguntaController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private Email emails;
 
 	@PostMapping
 	@Transactional
@@ -42,5 +46,6 @@ public class NovaPerguntaController {
 
 		Pergunta pergunta = request.toModel(produto, consumidor.get());
 		manager.persist(pergunta);
+		emails.novaPergunta(pergunta);
 	}
 }

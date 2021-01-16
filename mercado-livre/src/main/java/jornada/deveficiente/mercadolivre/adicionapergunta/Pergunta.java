@@ -41,4 +41,23 @@ public class Pergunta {
 		this.usuario = usuario;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public LocalDateTime getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
 }
