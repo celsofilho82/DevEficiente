@@ -67,7 +67,7 @@ public class CadastroProdutosController {
 		manager.merge(produto);
 	}
 	
-	@PostMapping(path = "/{id}/imagens")
+	@PostMapping(path = "/{id}/opinioes")
 	@Transactional
 	public void adicionaOpiniao(@PathVariable("id") Long id, @Valid NovaOpiniaoRequest request) {
 		
