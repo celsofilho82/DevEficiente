@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.util.Assert;
 
 import jornada.deveficiente.mercadolivre.adicionaopiniao.Opiniao;
 import jornada.deveficiente.mercadolivre.adicionapergunta.Pergunta;
@@ -64,7 +65,7 @@ public class Produto {
 
 	@OneToMany(mappedBy = "produto")
 	private Set<Opiniao> opinioes = new HashSet<Opiniao>();
-	
+
 	@Deprecated
 	public Produto() {
 	}
@@ -135,6 +136,16 @@ public class Produto {
 
 	public <T> Set<T> mapOpinioes(Function<Opiniao, T> funcaoMapper) {
 		return this.opinioes.stream().map(funcaoMapper).collect(Collectors.toSet());
+	}
+
+	public boolean abateEstoque(@Positive int quantidade) {
+		Assert.isTrue(quantidade > 0, "Para abater o estoque a quantidade deve ser maior que 0");
+		if (quantidade <= this.quantidade) {
+			this.quantidade -= quantidade;
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
