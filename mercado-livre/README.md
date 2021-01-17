@@ -155,3 +155,21 @@ Um usuário logado pode fazer uma pergunta sobre o produto
 
         Uma nova pergunta é criada e a lista de perguntas, com a nova pergunta adicionada, é retornada. Status 200
         Em caso de erro de validação, retorne 400 e o json com erros.
+
+### Montar uma página de detalhes para o produto
+
+O frontend precisa montar essa página => <https://produto.mercadolivre.com.br/MLB-1279370191-bebedouro-bomba-eletrica-p-garrafo-galo-agua-recarregavel-_JM?quantity=1&variation=49037204722&onAttributesExp=true>
+
+Não temos todas as informações, mas já temos bastante coisa. Faça, do jeito que achar melhor o código necessário para que o endpoint retorne as informações para que o front monte a página.
+
++ Resultado esperado
+
+        Links para imagens
+        Nome do produto
+        Preço do produto
+        Características do produto
+        Des​crição do produto
+        Média de notas do produto
+        Número total de notas do produto
+        Opiniões sobre o produto
+        Perguntas para aquele produto
