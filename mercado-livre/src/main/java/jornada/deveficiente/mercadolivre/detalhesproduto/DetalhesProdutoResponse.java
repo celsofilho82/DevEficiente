@@ -66,10 +66,7 @@ public class DetalhesProdutoResponse {
 	private double calculaMediaOpinioes(Produto produto) {
 		Set<Integer> notas = produto.mapOpinioes(opiniao -> opiniao.getNota());
 		OptionalDouble possivelMedia = notas.stream().mapToInt(nota -> nota).average();
-		if (possivelMedia.isPresent()) {
-			return possivelMedia.getAsDouble();
-		}
-		return 0.0;
+		return possivelMedia.orElse(0.0);
 	}
 
 }
