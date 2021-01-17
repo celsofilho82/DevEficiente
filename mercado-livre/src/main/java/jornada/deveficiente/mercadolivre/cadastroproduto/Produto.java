@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -20,6 +21,7 @@ import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Length;
 
+import jornada.deveficiente.mercadolivre.adicionapergunta.Pergunta;
 import jornada.deveficiente.mercadolivre.cadastrocategoria.Categoria;
 import jornada.deveficiente.mercadolivre.cadastrousuario.Usuario;
 
@@ -40,6 +42,10 @@ public class Produto {
 	@ManyToOne
 	private Categoria categoria;
 
+	public Set<ImagemProduto> getImagens() {
+		return imagens;
+	}
+
 	@NotNull
 	@Valid
 	@ManyToOne
@@ -51,6 +57,9 @@ public class Produto {
 
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
 	private Set<ImagemProduto> imagens = new HashSet<ImagemProduto>();
+	
+	@OneToMany(mappedBy = "produto")
+	private Set<Pergunta> perguntas = new HashSet<Pergunta>();
 
 	@Deprecated
 	public Produto() {
@@ -112,4 +121,62 @@ public class Produto {
 		return this.usuario.equals(dono);
 	}
 
+	public <T> Set<T> mapImagens(Function<ImagemProduto, T> funcaoMapper) {
+		return this.imagens.stream().map(funcaoMapper).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapPerguntas(Function<Pergunta, T> funcaoMapper) {
+		return this.perguntas .stream().map(funcaoMapper).collect(Collectors.toSet());
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		if (categoria == null) {
+			if (other.categoria != null)
+				return false;
+		} else if (!categoria.equals(other.categoria))
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
+		if (valor == null) {
+			if (other.valor != null)
+				return false;
+		} else if (!valor.equals(other.valor))
+			return false;
+		return true;
+	}
+
+	
 }

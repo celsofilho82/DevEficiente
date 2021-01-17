@@ -27,6 +27,14 @@ public class ImagemProduto {
 	@NotBlank
 	private String link;
 
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
 	@Deprecated
 	public ImagemProduto() {
 	}
