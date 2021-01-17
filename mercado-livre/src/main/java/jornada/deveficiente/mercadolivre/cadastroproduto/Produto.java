@@ -21,6 +21,7 @@ import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Length;
 
+import jornada.deveficiente.mercadolivre.adicionaopiniao.Opiniao;
 import jornada.deveficiente.mercadolivre.adicionapergunta.Pergunta;
 import jornada.deveficiente.mercadolivre.cadastrocategoria.Categoria;
 import jornada.deveficiente.mercadolivre.cadastrousuario.Usuario;
@@ -57,10 +58,13 @@ public class Produto {
 
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
 	private Set<ImagemProduto> imagens = new HashSet<ImagemProduto>();
-	
+
 	@OneToMany(mappedBy = "produto")
 	private Set<Pergunta> perguntas = new HashSet<Pergunta>();
 
+	@OneToMany(mappedBy = "produto")
+	private Set<Opiniao> opinioes = new HashSet<Opiniao>();
+	
 	@Deprecated
 	public Produto() {
 	}
@@ -126,7 +130,11 @@ public class Produto {
 	}
 
 	public <T> Set<T> mapPerguntas(Function<Pergunta, T> funcaoMapper) {
-		return this.perguntas .stream().map(funcaoMapper).collect(Collectors.toSet());
+		return this.perguntas.stream().map(funcaoMapper).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapOpinioes(Function<Opiniao, T> funcaoMapper) {
+		return this.opinioes.stream().map(funcaoMapper).collect(Collectors.toSet());
 	}
 
 	@Override
@@ -178,5 +186,4 @@ public class Produto {
 		return true;
 	}
 
-	
 }
