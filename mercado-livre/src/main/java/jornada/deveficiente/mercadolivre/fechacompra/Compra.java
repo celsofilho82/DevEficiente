@@ -20,7 +20,6 @@ import org.springframework.util.Assert;
 
 import jornada.deveficiente.mercadolivre.cadastroproduto.Produto;
 import jornada.deveficiente.mercadolivre.cadastrousuario.Usuario;
-import jornada.deveficiente.mercadolivre.transacoes.RetornoPagSeguroRequest;
 import jornada.deveficiente.mercadolivre.transacoes.Transacao;
 
 @Entity
@@ -62,7 +61,7 @@ public class Compra {
 		this.gatewayPagamento = gatewayPagamento;
 	}
 
-	public void adicionaTransacao(@Valid RetornoPagSeguroRequest request) {
+	public void adicionaTransacao(@Valid RetornoGatewayPagamento request) {
 		Transacao novaTransacao = request.toTransacao(this);
 
 		Assert.isTrue(!this.transacoes.contains(novaTransacao), "Já existe uma transação com esse mesmo id!!!");

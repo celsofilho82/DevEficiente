@@ -5,8 +5,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import jornada.deveficiente.mercadolivre.fechacompra.Compra;
+import jornada.deveficiente.mercadolivre.fechacompra.RetornoGatewayPagamento;
 
-public class RetornoPagSeguroRequest {
+public class RetornoPagSeguroRequest implements RetornoGatewayPagamento {
 
 	@NotBlank
 	private String idTransacao;

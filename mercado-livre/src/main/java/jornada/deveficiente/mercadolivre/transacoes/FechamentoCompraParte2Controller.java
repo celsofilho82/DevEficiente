@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jornada.deveficiente.mercadolivre.fechacompra.Compra;
+import jornada.deveficiente.mercadolivre.fechacompra.RetornoGatewayPagamento;
 
 @RestController
 public class FechamentoCompraParte2Controller {
@@ -23,8 +24,19 @@ public class FechamentoCompraParte2Controller {
 	public void processamentoPagSeguro(@PathVariable("id") Long id,
 			@RequestBody @Valid RetornoPagSeguroRequest request) {
 
-		Compra compra = manager.find(Compra.class, id);
-		compra.adicionaTransacao(request);
+		processaPagamento(id, request);
+	}
+
+	@PostMapping(value = "/retorno-paypal/{id}")
+	@Transactional
+	public void processamentoPaypal(@PathVariable("id") Long id, @RequestBody @Valid RetornoPaypalRequest request) {
+
+		processaPagamento(id, request);
+	}
+
+	private void processaPagamento(Long idComrpa, RetornoGatewayPagamento retornoGatewayPagamento) {
+		Compra compra = manager.find(Compra.class, idComrpa);
+		compra.adicionaTransacao(retornoGatewayPagamento);
 		manager.merge(compra);
 	}
 }
